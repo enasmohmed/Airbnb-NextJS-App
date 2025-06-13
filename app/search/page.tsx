@@ -6,31 +6,37 @@ import { SearchResultData } from "../types/app";
 import ListingCard from "../components/ListingCard";
 import Map from "../components/Map";
 
-// تعريف نوع واضح للـ Props
-type PageProps = {
-  searchParams?: { [key: string]: string | string[] | undefined };
+// ✅ نوع البراميتر بالطريقة المتوافقة مع Next.js App Router
+type Props = {
+  searchParams?: {
+    [key: string]: string | string[] | undefined;
+  };
 };
 
-export default async function SearchResult({ searchParams }: PageProps) {
-  const location = searchParams?.location || '';
-  const startDate = searchParams?.startDate || '';
-  const endDate = searchParams?.endDate || '';
-  const numOfGuests = searchParams?.numOfGuests || '';
+export default async function SearchResult({ searchParams }: Props) {
+  const location = typeof searchParams?.location === "string" ? searchParams.location : "";
+  const startDate = typeof searchParams?.startDate === "string" ? searchParams.startDate : "";
+  const endDate = typeof searchParams?.endDate === "string" ? searchParams.endDate : "";
+  const numOfGuests = typeof searchParams?.numOfGuests === "string" ? searchParams.numOfGuests : "";
 
-  let formatedStartDate = '';
-  let formatedEndDate = '';
+  let formatedStartDate = "";
+  let formatedEndDate = "";
   if (startDate && endDate) {
-    formatedStartDate = format(new Date(startDate), 'dd MMMM yy');
-    formatedEndDate = format(new Date(endDate), 'dd MMMM yy');
+    try {
+      formatedStartDate = format(new Date(startDate), "dd MMMM yy");
+      formatedEndDate = format(new Date(endDate), "dd MMMM yy");
+    } catch (error) {
+      console.error("Invalid date format", error);
+    }
   }
 
   const range = `${formatedStartDate} - ${formatedEndDate}`;
   const filters = [
-    'Cancellation Flexibility',
-    'Type of Place',
-    'Price',
-    'Rooms and Beds',
-    'More filters',
+    "Cancellation Flexibility",
+    "Type of Place",
+    "Price",
+    "Rooms and Beds",
+    "More filters",
   ];
 
   const searchResultData: SearchResultData = await getSearchResult();
