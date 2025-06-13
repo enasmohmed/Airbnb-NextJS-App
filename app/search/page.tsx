@@ -5,24 +5,25 @@ import Header from "../components/header/Header";
 import Footer from "../components/footer/Footer";
 import { getSearchResult } from "../utils/api";
 import { SearchResultData } from "../types/app";
+
 import ListingCard from "../components/ListingCard";
 import Map from "../components/Map";
 
 
 
-
-type SearchParams = {
-  location: string;
-  startDate: string;
-  endDate: string;
-  numOfGuests: string;
-};
-
-async function SearchResult({ 
-  searchParams: { location, startDate, endDate,  numOfGuests } 
+async function SearchResult({
+  searchParams,
 }: {
-  searchParams: SearchParams;
+  searchParams: Readonly<{
+    [key: string]: string | string[] | undefined;
+  }>;
 }) {
+  const location = searchParams.location || '';
+  const startDate = searchParams.startDate || '';
+  const endDate = searchParams.endDate || '';
+  const numOfGuests = searchParams.numOfGuests || '';
+
+
 
   let formatedStartDate;
   let formatedEndDate;
