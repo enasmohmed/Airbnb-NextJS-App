@@ -13,6 +13,7 @@
     "@types/leaflet": "^1.9.18",
     "@types/react-date-range": "^1.4.10",
     "axios": "^1.8.4",
+    "date-fns": "^4.1.0",
     "geo-lib": "^0.4.0",
     "geolib": "^3.3.4",
     "leaflet": "^1.9.4",

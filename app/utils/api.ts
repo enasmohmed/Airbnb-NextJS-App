@@ -1,4 +1,5 @@
 import axios from "axios";
+import { SearchResultData } from "../types/app";
 
 
 export const getExplore = async () => {
@@ -20,36 +21,23 @@ export const getLive = async () => {
     }
 }   
 
-export const getSearchResult = async () => {
+// export const getSearchResult = async () => {
+//     try {
+//         const response = await axios.get(`${process.env.NEXT_PUBLIC_BASE_URL}/b/5NPS`);
+//         return response.data;
+//     } catch (error) {
+//         console.log(error);
+//     }
+// };
+
+
+
+export const getSearchResult = async (): Promise<SearchResultData[] | []> => {
     try {
         const response = await axios.get(`${process.env.NEXT_PUBLIC_BASE_URL}/b/5NPS`);
         return response.data;
     } catch (error) {
-        console.log(error);
+        console.error("Error fetching search results:", error);
+        return [];
     }
 };
-
-// export const getSearchResult = async (
-//     location: string,
-//     startDate: string,
-//     endDate: string,
-//     numOfGuests: string
-//   ) => {
-//     try {
-//       const response = await axios.get(
-//         `${process.env.NEXT_PUBLIC_BASE_URL}/search`,
-//         {
-//           params: {
-//             location,
-//             startDate,
-//             endDate,
-//             numOfGuests,
-//           },
-//         }
-//       );
-//       return response.data;
-//     } catch (error) {
-//       console.log("Error fetching search results:", error);
-//     }
-//   };
-  
