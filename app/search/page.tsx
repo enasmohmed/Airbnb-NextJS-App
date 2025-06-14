@@ -1,5 +1,3 @@
-// app/search/page.tsx
-
 import { format } from "date-fns";
 import Header from "../components/header/Header";
 import Footer from "../components/footer/Footer";
@@ -10,19 +8,16 @@ import Map from "../components/Map";
 
 export const dynamic = 'force-dynamic';
 
-type SearchParams = {
-  location?: string;
-  startDate?: string;
-  endDate?: string;
-  numOfGuests?: string;
+type Props = {
+  searchParams: {
+    location?: string;
+    startDate?: string;
+    endDate?: string;
+    numOfGuests?: string;
+  };
 };
 
-export default async function SearchResult({
-  searchParams,
-}: {
-  searchParams: SearchParams;
-}) {
-
+export default async function SearchResult({ searchParams }: Props) {
   const location = searchParams.location || "";
   const startDate = searchParams.startDate || "";
   const endDate = searchParams.endDate || "";
