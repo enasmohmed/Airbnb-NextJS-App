@@ -2,22 +2,25 @@ import { format } from "date-fns";
 import Header from "../components/header/Header";
 import Footer from "../components/footer/Footer";
 import { getSearchResult } from "../utils/api";
-import { SearchResultData } from "../types/app";
 import ListingCard from "../components/ListingCard";
 import Map from "../components/Map";
+import { SearchResultData } from "../types/app";
 
 export const dynamic = 'force-dynamic';
 
-type Props = {
-  searchParams: {
-    location?: string;
-    startDate?: string;
-    endDate?: string;
-    numOfGuests?: string;
-  };
-};
+// ✅ تعريف واجهة SearchParams محليًا
+interface SearchParams {
+  location?: string;
+  startDate?: string;
+  endDate?: string;
+  numOfGuests?: string;
+}
 
-export default async function SearchResult({ searchParams }: Props) {
+interface SearchPageProps {
+  searchParams: SearchParams;
+}
+
+export default async function SearchPage({ searchParams }: SearchPageProps) {
   const location = searchParams.location || "";
   const startDate = searchParams.startDate || "";
   const endDate = searchParams.endDate || "";
@@ -25,6 +28,7 @@ export default async function SearchResult({ searchParams }: Props) {
 
   let formatedStartDate = "";
   let formatedEndDate = "";
+
   if (startDate && endDate) {
     try {
       formatedStartDate = format(new Date(startDate), "dd MMMM yy");
