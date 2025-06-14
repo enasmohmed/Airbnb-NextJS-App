@@ -1,6 +1,7 @@
 'use client';
 import { useState } from 'react';
-import { MapContainer, TileLayer, Marker, Popup, useMap } from 'react-leaflet';
+import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
+
 import { ListingCardItem, SearchResultData } from '../types/app';
 import { getCenter } from 'geolib';
 import 'leaflet/dist/leaflet.css';
