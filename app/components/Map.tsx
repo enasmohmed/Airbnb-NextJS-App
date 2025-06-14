@@ -42,14 +42,20 @@ const Map = ({ searchResultData }: { searchResultData: SearchResultData }) => {
             }}
           >
             {selectedLocation?.long === listing.long && (
-              <Popup
-                position={[listing.lat, listing.long]}
-                onClose={() => setSelectedLocation(null)}
-              >
-                {listing.title}
-              </Popup>
+            
+            <Popup>
+            {listing.location}
+            </Popup>
             )}
           </Marker>
+
+
+
+
+
+
+
+
         ))}
       </MapContainer>
     </div>
