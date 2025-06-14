@@ -6,14 +6,12 @@ import { SearchResultData } from "../types/app";
 import ListingCard from "../components/ListingCard";
 import Map from "../components/Map";
 
-// ✅ نوع البراميتر بالطريقة المتوافقة مع Next.js App Router
-type Props = {
-  searchParams?: {
-    [key: string]: string | string[] | undefined;
-  };
-};
-
-export default async function SearchResult({ searchParams }: Props) {
+// ✅ هنا بنستقبل searchParams مباشرة من Next.js
+export default async function SearchResult({
+  searchParams,
+}: {
+  searchParams?: Record<string, string | string[] | undefined>;
+}) {
   const location = typeof searchParams?.location === "string" ? searchParams.location : "";
   const startDate = typeof searchParams?.startDate === "string" ? searchParams.startDate : "";
   const endDate = typeof searchParams?.endDate === "string" ? searchParams.endDate : "";
@@ -21,6 +19,7 @@ export default async function SearchResult({ searchParams }: Props) {
 
   let formatedStartDate = "";
   let formatedEndDate = "";
+
   if (startDate && endDate) {
     try {
       formatedStartDate = format(new Date(startDate), "dd MMMM yy");
