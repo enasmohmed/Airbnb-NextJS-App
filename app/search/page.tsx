@@ -1,3 +1,5 @@
+// app/search/page.tsx
+
 import { format } from "date-fns";
 import Header from "../components/header/Header";
 import Footer from "../components/footer/Footer";
@@ -6,19 +8,24 @@ import { SearchResultData } from "../types/app";
 import ListingCard from "../components/ListingCard";
 import Map from "../components/Map";
 
-// منع إعادة بناء ثابت (مهم لأن searchParams ديناميكي)
 export const dynamic = 'force-dynamic';
+
+type SearchParams = {
+  location?: string;
+  startDate?: string;
+  endDate?: string;
+  numOfGuests?: string;
+};
 
 export default async function SearchResult({
   searchParams,
 }: {
-  searchParams: Promise<Record<string, string | string[] | undefined>>;
+  searchParams: SearchParams;
 }) {
-  const params = await searchParams;
-  const location = typeof params.location === "string" ? params.location : "";
-  const startDate = typeof params.startDate === "string" ? params.startDate : "";
-  const endDate = typeof params.endDate === "string" ? params.endDate : "";
-  const numOfGuests = typeof params.numOfGuests === "string" ? params.numOfGuests : "";
+  const location = searchParams.location || "";
+  const startDate = searchParams.startDate || "";
+  const endDate = searchParams.endDate || "";
+  const numOfGuests = searchParams.numOfGuests || "";
 
   let formatedStartDate = "";
   let formatedEndDate = "";
@@ -45,7 +52,44 @@ export default async function SearchResult({
   return (
     <>
       <Header placeholder={`${location} | ${range} | ${numOfGuests} guests`} />
-      <main>{/* ...rest of code... */}</main>
+      <main>
+        <section>
+          <div className="container flex">
+            <div className="pt-14 pr-4">
+              <p className="text-xs">
+                300+ Stays - {range} - for {numOfGuests} guests
+              </p>
+              <h1 className="text-3xl font-semibold mt-2 mb-6">
+                Stays in {location}
+              </h1>
+              <div className="hidden lg:inline-flex mb-5 space-x-3 text-gray-800 whitespace-nowrap">
+                {filters.map((filter) => (
+                  <button type="button" className="filter-btn" key={filter}>
+                    {filter}
+                  </button>
+                ))}
+              </div>
+              <div>
+                {searchResultData.map((listing) => (
+                  <ListingCard
+                    key={listing.title}
+                    img={listing.img}
+                    title={listing.title}
+                    location={listing.location}
+                    description={listing.description}
+                    price={listing.price}
+                    total={listing.total}
+                    star={listing.star}
+                  />
+                ))}
+              </div>
+            </div>
+            <div className="hidden xl:inline-flex xl:min-w-[600px]">
+              <Map searchResultData={searchResultData} />
+            </div>
+          </div>
+        </section>
+      </main>
       <Footer />
     </>
   );

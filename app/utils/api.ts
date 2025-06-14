@@ -28,3 +28,28 @@ export const getSearchResult = async () => {
         console.log(error);
     }
 };
+
+// export const getSearchResult = async (
+//     location: string,
+//     startDate: string,
+//     endDate: string,
+//     numOfGuests: string
+//   ) => {
+//     try {
+//       const response = await axios.get(
+//         `${process.env.NEXT_PUBLIC_BASE_URL}/search`,
+//         {
+//           params: {
+//             location,
+//             startDate,
+//             endDate,
+//             numOfGuests,
+//           },
+//         }
+//       );
+//       return response.data;
+//     } catch (error) {
+//       console.log("Error fetching search results:", error);
+//     }
+//   };
+  
