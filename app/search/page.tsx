@@ -22,6 +22,7 @@ export default async function SearchResult({
 }: {
   searchParams: SearchParams;
 }) {
+
   const location = searchParams.location || "";
   const startDate = searchParams.startDate || "";
   const endDate = searchParams.endDate || "";
