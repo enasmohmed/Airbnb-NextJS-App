@@ -8,20 +8,16 @@ import Map from "../components/Map";
 
 export const dynamic = "force-dynamic";
 
-interface SearchPageProps {
-  searchParams?: {
-    location?: string;
-    startDate?: string;
-    endDate?: string;
-    numOfGuests?: string;
-  };
-}
+// ✅ النوع الصحيح لصفحات App Router
+type SearchPageProps = {
+  searchParams?: { [key: string]: string | string[] | undefined };
+};
 
 export default async function SearchPage({ searchParams = {} }: SearchPageProps) {
-  const location = searchParams.location || "";
-  const startDate = searchParams.startDate || "";
-  const endDate = searchParams.endDate || "";
-  const numOfGuests = searchParams.numOfGuests || "";
+  const location = typeof searchParams.location === "string" ? searchParams.location : "";
+  const startDate = typeof searchParams.startDate === "string" ? searchParams.startDate : "";
+  const endDate = typeof searchParams.endDate === "string" ? searchParams.endDate : "";
+  const numOfGuests = typeof searchParams.numOfGuests === "string" ? searchParams.numOfGuests : "";
 
   let formatedStartDate = "";
   let formatedEndDate = "";
