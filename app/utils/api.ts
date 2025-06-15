@@ -21,23 +21,31 @@ export const getLive = async () => {
     }
 }   
 
-// export const getSearchResult = async () => {
-//     try {
-//         const response = await axios.get(`${process.env.NEXT_PUBLIC_BASE_URL}/b/5NPS`);
-//         return response.data;
-//     } catch (error) {
-//         console.log(error);
-//     }
-// };
 
 
 
-export const getSearchResult = async (): Promise<SearchResultData[] | []> => {
+export const getSearchResult = async (): Promise<SearchResultData> => {
     try {
-        const response = await axios.get(`${process.env.NEXT_PUBLIC_BASE_URL}/b/5NPS`);
-        return response.data;
+        const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/b/5NPS`);
+    
+        if (!res.ok) {
+            throw new Error("Failed to fetch search results");
+    }
+
+        const searchResultData = await res.json();
+        return searchResultData;
     } catch (error) {
         console.error("Error fetching search results:", error);
-        return [];
+      return []; // ارجع مصفوفة فاضية في حالة الخطأ لتفادي الكراش
     }
 };
+
+// export const getSearchResult = async () => {
+//     try {
+//         const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/b/5NPS`);
+//         const searchResultDate = await res.json();
+//         return searchResultDate;
+//     } catch (error) {
+        
+//     }
+// };

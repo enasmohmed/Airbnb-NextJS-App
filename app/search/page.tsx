@@ -6,18 +6,20 @@ import { SearchResultData } from "../types/app";
 import ListingCard from "../components/ListingCard";
 import Map from "../components/Map";
 
-export const dynamic = "force-dynamic";
+// ✅ نوع البراميتر بالطريقة المتوافقة مع Next.js App Router
+interface PageProps {
+  searchParams?: Record<string, string | string[] | undefined>;
+}
 
-// ✅ النوع الصحيح لصفحات App Router
-type SearchPageProps = {
-  searchParams?: { [key: string]: string | string[] | undefined };
-};
-
-export default async function SearchPage({ searchParams = {} }: SearchPageProps) {
-  const location = typeof searchParams.location === "string" ? searchParams.location : "";
-  const startDate = typeof searchParams.startDate === "string" ? searchParams.startDate : "";
-  const endDate = typeof searchParams.endDate === "string" ? searchParams.endDate : "";
-  const numOfGuests = typeof searchParams.numOfGuests === "string" ? searchParams.numOfGuests : "";
+export default async function SearchResult({
+  searchParams,
+}: {
+  searchParams?: Record<string, string | string[] | undefined>;
+}) {
+  const location = typeof searchParams?.location === "string" ? searchParams.location : "";
+  const startDate = typeof searchParams?.startDate === "string" ? searchParams.startDate : "";
+  const endDate = typeof searchParams?.endDate === "string" ? searchParams.endDate : "";
+  const numOfGuests = typeof searchParams?.numOfGuests === "string" ? searchParams.numOfGuests : "";
 
   let formatedStartDate = "";
   let formatedEndDate = "";
@@ -26,8 +28,8 @@ export default async function SearchPage({ searchParams = {} }: SearchPageProps)
     try {
       formatedStartDate = format(new Date(startDate), "dd MMMM yy");
       formatedEndDate = format(new Date(endDate), "dd MMMM yy");
-    } catch {
-      console.error("Invalid date format", startDate, endDate);
+    } catch (error) {
+      console.error("Invalid date format", error);
     }
   }
 
