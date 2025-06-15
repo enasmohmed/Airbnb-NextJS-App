@@ -7,9 +7,9 @@ import ListingCard from "../components/ListingCard";
 import Map from "../components/Map";
 
 // ✅ نوع البراميتر بالطريقة المتوافقة مع Next.js App Router
-interface PageProps {
-  searchParams?: Record<string, string | string[] | undefined>;
-}
+// interface PageProps {
+//   searchParams?: Record<string, string | string[] | undefined>;
+// }
 
 export default async function SearchResult({
   searchParams,
