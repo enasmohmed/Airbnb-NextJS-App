@@ -8,16 +8,16 @@ import Map from "../components/Map";
 
 export const dynamic = "force-dynamic";
 
-export default async function SearchPage({
-  searchParams,
-}: {
+type PageProps = {
   searchParams: {
     location?: string;
     startDate?: string;
     endDate?: string;
     numOfGuests?: string;
   };
-}) {
+};
+
+export default async function SearchPage({ searchParams }: PageProps) {
   const location = searchParams.location || "";
   const startDate = searchParams.startDate || "";
   const endDate = searchParams.endDate || "";
