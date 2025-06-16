@@ -1,10 +1,14 @@
-import { format } from 'date-fns';
-import Header from '../components/header/Header';
-import { getSearchResult } from '../utils/api';
-import { SearchResultData } from '../types/app';
-import ListingCard from '../components/ListingCard';
-import Map from '../components/Map';
-import Footer from '../components/footer/Footer';
+
+import { format } from "date-fns";
+import Header from "../components/header/Header";
+import Footer from "../components/footer/Footer";
+import { getSearchResult } from "../utils/api";
+import { SearchResultData } from "../types/app";
+import ListingCard from "../components/ListingCard";
+import Map from "../components/Map";
+
+
+
 
 type SearchParams = {
   location: string;
@@ -12,17 +16,20 @@ type SearchParams = {
   endDate: string;
   numOfGuests: string;
 };
-const SearchResult = async ({
-  searchParams: { location, startDate, endDate, numOfGuests },
+
+async function SearchResult({ 
+  searchParams: { location, startDate, endDate,  numOfGuests } 
 }: {
   searchParams: SearchParams;
-}) => {
+}) {
+
   let formatedStartDate;
   let formatedEndDate;
   if (startDate && endDate) {
     formatedStartDate = format(new Date(startDate), 'dd MMMM yy');
     formatedEndDate = format(new Date(endDate), 'dd MMMM yy');
   }
+
   const range = `${formatedStartDate} - ${formatedEndDate}`;
   const filters = [
     'Cancellation Flexibility',
@@ -32,12 +39,11 @@ const SearchResult = async ({
     'More filters',
   ];
   const searchResultData: SearchResultData = await getSearchResult();
-
-  return (
-    <>
-      <Header placeholder={`${location} | ${range} | ${numOfGuests} guests`} />
-      <main>
-        <section>
+  
+  return <>
+    <Header placeholder={`${location} | ${range} | ${numOfGuests} guests`} />
+    <main>
+    <section>
           <div className='container flex'>
             <div className='pt-14 pr-4'>
               <p className='text-xs'>
@@ -67,16 +73,18 @@ const SearchResult = async ({
                   />
                 ))}
               </div>
+              
             </div>
             <div className='hidden xl:inline-flex xl:min-w-[600px]'>
               <Map searchResultData={searchResultData} />
+
             </div>
+            
           </div>
         </section>
-      </main>
-      <Footer />
-    </>
-  );
-};
+    </main>
+    <Footer />
+  </>
+}
 
-export default SearchResult;
+export default SearchResult
