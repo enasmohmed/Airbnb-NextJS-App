@@ -1,4 +1,3 @@
-
 import { format } from "date-fns";
 import Header from "../components/header/Header";
 import Footer from "../components/footer/Footer";
@@ -7,54 +6,58 @@ import { SearchResultData } from "../types/app";
 import ListingCard from "../components/ListingCard";
 import Map from "../components/Map";
 
+export const dynamic = "force-dynamic";
 
+// ✅ النوع الصحيح لصفحة App Router
+interface Props {
+  searchParams?: Record<string, string | string[] | undefined>;
+}
 
+export default async function SearchPage({ searchParams = {} }: Props) {
+  const location = typeof searchParams.location === "string" ? searchParams.location : "";
+  const startDate = typeof searchParams.startDate === "string" ? searchParams.startDate : "";
+  const endDate = typeof searchParams.endDate === "string" ? searchParams.endDate : "";
+  const numOfGuests = typeof searchParams.numOfGuests === "string" ? searchParams.numOfGuests : "";
 
-type SearchParams = {
-  location: string;
-  startDate: string;
-  endDate: string;
-  numOfGuests: string;
-};
+  let formatedStartDate = "";
+  let formatedEndDate = "";
 
-async function SearchResult({ 
-  searchParams: { location, startDate, endDate,  numOfGuests } 
-}: {
-  searchParams: SearchParams;
-}) {
-
-  let formatedStartDate;
-  let formatedEndDate;
   if (startDate && endDate) {
-    formatedStartDate = format(new Date(startDate), 'dd MMMM yy');
-    formatedEndDate = format(new Date(endDate), 'dd MMMM yy');
+    try {
+      formatedStartDate = format(new Date(startDate), "dd MMMM yy");
+      formatedEndDate = format(new Date(endDate), "dd MMMM yy");
+    } catch {
+      console.error("Invalid date format", startDate, endDate);
+    }
   }
 
   const range = `${formatedStartDate} - ${formatedEndDate}`;
   const filters = [
-    'Cancellation Flexibility',
-    'Type of Place',
-    'Price',
-    'Rooms and Beds',
-    'More filters',
+    "Cancellation Flexibility",
+    "Type of Place",
+    "Price",
+    "Rooms and Beds",
+    "More filters",
   ];
+
   const searchResultData: SearchResultData = await getSearchResult();
-  
-  return <>
-    <Header placeholder={`${location} | ${range} | ${numOfGuests} guests`} />
-    <main>
-    <section>
-          <div className='container flex'>
-            <div className='pt-14 pr-4'>
-              <p className='text-xs'>
+
+  return (
+    <>
+      <Header placeholder={`${location} | ${range} | ${numOfGuests} guests`} />
+      <main>
+        <section>
+          <div className="container flex">
+            <div className="pt-14 pr-4">
+              <p className="text-xs">
                 300+ Stays - {range} - for {numOfGuests} guests
               </p>
-              <h1 className='text-3xl font-semibold mt-2 mb-6 '>
+              <h1 className="text-3xl font-semibold mt-2 mb-6">
                 Stays in {location}
               </h1>
-              <div className='hidden lg:inline-flex mb-5 space-x-3 text-gray-800 whitespace-nowrap'>
+              <div className="hidden lg:inline-flex mb-5 space-x-3 text-gray-800 whitespace-nowrap">
                 {filters.map((filter) => (
-                  <button type='button' className='filter-btn' key={filter}>
+                  <button type="button" className="filter-btn" key={filter}>
                     {filter}
                   </button>
                 ))}
@@ -73,18 +76,14 @@ async function SearchResult({
                   />
                 ))}
               </div>
-              
             </div>
-            <div className='hidden xl:inline-flex xl:min-w-[600px]'>
+            <div className="hidden xl:inline-flex xl:min-w-[600px]">
               <Map searchResultData={searchResultData} />
-
             </div>
-            
           </div>
         </section>
-    </main>
-    <Footer />
-  </>
+      </main>
+      <Footer />
+    </>
+  );
 }
-
-export default SearchResult
